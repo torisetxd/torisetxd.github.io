@@ -1,66 +1,56 @@
 <!DOCTYPE html>
-<html lang="en-US">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>My App</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <div class="content">
-            <div class="banner"></div>
-            <div class="engravedName">
-                <p>toriset</p>
-            </div>
-            <br><br><br><br>
-            <div class="projects">
-                <div class="gold-project">
-                    <img class="project-banner" title="ProjectBanner" src="assets/projects/zypr.png">
-                    <p class="project-title">Zypr</p>
-                    <p class="project-description">This is written using NodeJS as backend and a web control panel for minecraft bots.</p>
-                </div>
-                <div class="project">
-                    <img class="project-banner" title="ProjectBanner" src="assets/projects/exofuscator.png">
-                    <p class="project-title">Exofuscator</p>
-                    <p class="project-description">A very powerful python obfuscator which makes code hardly readable with several layers of obfuscation.</p>
-                </div>
-                <div class="project">
-                    <img class="project-banner" title="ProjectBanner" src="assets/projects/search.jpg">
-                    <p class="project-title">Search Engine</p>
-                    <p class="project-description">A Search engine made with a Python Backend and a responsive front-end.</p>
-                </div>
-                <div class="project">
-                    <img class="project-banner" title="ProjectBanner" src="assets/projects/generichosting.png">
-                    <p class="project-title">Generic Hosting</p>
-                    <p class="project-description">Hosting provider fully custom panel and working minecraft server deployment.</p>
-                </div>
-                <div class="project">
-                    <img class="project-banner" title="ProjectBanner" src="assets/projects/linkvertise.png">
-                    <p class="project-title">Link Moneytise</p>
-                    <p class="project-description">A tool which uses ChromeDriver to automaticaly complete linkvertise links in turn for possible profit.</p>
-                </div>
-                <div class="project">
-                    <img class="project-banner" title="ProjectBanner" src="assets/projects/hcaptcha.png">
-                    <p class="project-title">HCaptcha Solver</p>
-                    <p class="project-description">HCaptcha solver made in python without AI entirely just using template matching in OpenCV2.</p>
-                </div>
-            </div>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unicode Conversion</title>
+</head>
+<body>
 
-            <div class="seperatorText">
-                <p>About me</p>
-            </div>
-            <br><br><br><br><br>
-            <div class="textHolder">
-                <p>I am very passionate about programming. I have started programming since i was 10 and started in Javascript, since then I have expanded into Python, C#, .NET C#, C++, Java and a lot more JS. I Love gaming but I am very dedicated to my projects.</p>
-            </div>
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-            <p style="color: rgb(16, 15, 19)">Nothing more here.</p>
-            <div class="footer"> 
-                <p>© 2022 toriset</p>
-            </div>
+<input type="text" id="unicode" value="\uE000">
+<button id="convertButton">Convert</button>
+<button id="copyButton">Copy</button>
+<div id="output"></div>
 
-        </div>
-        <script src="script.js"></script>
-    </body>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var convertButton = document.getElementById("convertButton");
+    var copyButton = document.getElementById("copyButton");
+    var unicodeInput = document.getElementById("unicode");
+    var outputElement = document.getElementById("output");
+
+    if (convertButton && copyButton && unicodeInput && outputElement) {
+        convertButton.addEventListener("click", function() {
+            // Get the value from the input element
+            var unicodeValue = unicodeInput.value;
+            
+            // Convert unicode escape sequence to character
+            var unicodeCharacter = unicodeValue.replace(/\\u([0-9a-fA-F]{4})/g, function (match, grp) {
+                return String.fromCharCode(parseInt(grp, 16)); 
+            });
+
+            // Update the output element with the unicode character
+            outputElement.textContent = unicodeCharacter;
+        });
+
+        copyButton.addEventListener("click", function() {
+            // Select the text in the output element
+            var range = document.createRange();
+            range.selectNode(outputElement);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+
+            // Copy the selected text to the clipboard
+            document.execCommand("copy");
+
+            // Deselect the text
+            window.getSelection().removeAllRanges();
+        });
+    } else {
+        console.error("Buttons or input/output elements not found.");
+    }
+});
+</script>
+
+</body>
 </html>
